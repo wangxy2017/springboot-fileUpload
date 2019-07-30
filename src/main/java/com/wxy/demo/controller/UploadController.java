@@ -24,11 +24,14 @@ public class UploadController {
             filePath.mkdirs();
         }
         File dest = new File(filePath.getPath() + File.separator + filename);
-        try {
-            file.transferTo(dest);
-            return "上传成功";
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (!dest.exists()) {
+            try {
+                dest.createNewFile();
+                file.transferTo(dest);
+                return "上传成功";
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return "上传失败";
     }
