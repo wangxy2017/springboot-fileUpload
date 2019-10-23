@@ -18,21 +18,23 @@ public class UploadController {
 
     @PostMapping("/upload")
     public String upload(@RequestParam("file") MultipartFile file) {
-        String filename = file.getOriginalFilename();
-        File filePath = new File("upload");
-        if (!filePath.exists()) {
-            filePath.mkdirs();
-        }
-        File dest = new File(filePath.getPath() + File.separator + filename);
-        if (!dest.exists()) {
-            try {
-                dest.createNewFile();
-                file.transferTo(dest);
-                return "上传成功";
-            } catch (IOException e) {
-                e.printStackTrace();
+        try {
+            String filename = file.getOriginalFilename();
+            File filePath = new File("upload");
+            if (!filePath.exists()) {
+                filePath.mkdirs();
             }
+            System.out.println("upload:"+filePath.getAbsolutePath());
+            File dest = new File(filePath.getPath() + File.separator + filename);
+            if (!dest.exists()) {
+                dest.createNewFile();
+            }
+            System.out.println("file:"+dest.getAbsolutePath());
+            file.transferTo(dest);
+            return "上传成功";
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "上传失败";
         }
-        return "上传失败";
     }
 }
