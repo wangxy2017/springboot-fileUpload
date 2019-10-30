@@ -41,6 +41,7 @@ public class UploadController {
         File dest = new File(path.getPath() + File.separator + filename);
         try {
             OutputStream os = new FileOutputStream(dest);
+            // file.getBytes() 文件太大会造成内存溢出，使用file.getInputStream()
             os.write(file.getBytes());
             return "上传成功";
         } catch (IOException e) {
